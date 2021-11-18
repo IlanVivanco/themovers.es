@@ -9,3 +9,76 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: themovers
 Template: astra
 */
+
+
+/**
+ * Quote form styles
+ */
+#ui-datepicker-div.gform-theme-datepicker:not(.gform-legacy-datepicker)
+	.ui-datepicker-calendar
+	.ui-state-disabled
+	.ui-state-default {
+	background: none;
+	border: none;
+	box-shadow: none;
+	color: #ccc;
+	cursor: no-drop;
+}
+
+#gform_1 .transport_type .gfield_radio {
+	display: flex;
+	align-content: center;
+	margin: 1rem 0;
+}
+
+#gform_1 .transport_type .gfield_radio input {
+	display: none !important;
+}
+
+#gform_1 .transport_type .gfield_radio label {
+	position: relative;
+	height: 100%;
+	border: 1px solid #eee;
+	border-radius: 10px;
+	padding: 2rem;
+	text-align: center;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.07);
+
+	display: inline-flex;
+	align-items: center;
+}
+
+#gform_1 .option-card .tooltip {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	margin: 0 !important;
+	background: #cfd3d9;
+	width: 1rem;
+	border-radius: 50%;
+	font-size: 12px;
+	line-height: 1rem !important;
+	height: 1rem;
+	text-align: center !important;
+	color: #607382;
+   font-weight: 600;
+}
+
+#gform_1 .transport_type .gfield_radio input:checked + label {
+	border-color: #9bd49b;
+	box-shadow: 0 0 105px rgb(0 0 0 / 5%);
+	transform: scale(1.1);
+}
+
+#gform_1 .transport_type .gfield_radio label span {
+	display: block;
+	margin-top: 1rem;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+}
+
+#gform_1 .transport_type .gfield_radio label img {
+	display: block;
+	max-width: 100%;
+}
