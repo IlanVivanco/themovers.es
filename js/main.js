@@ -21,4 +21,23 @@ jQuery(function ($) {
 
 		return optionsObj;
 	});
+
+	// Process the cart total
+	gform.addFilter('gform_product_total', function (total, formId) {
+		//only apply to quote form
+		if (formId != 1) return total;
+
+		let $type = $('.transport_type input');
+		let $service = $('.transport_service input');
+
+		if ($type.is(':checked') && $service.is(':checked')) {
+			let typePrice = parseFloat($type.parent().find(':checked').val());
+			let servicePrice = parseFloat($service.parent().find(':checked').val().split('|')[1]);
+			total = servicePrice + typePrice;
+
+			console.log({ typePrice, servicePrice, total });
+		}
+
+		return total;
+	});
 });
