@@ -56,6 +56,39 @@ function mv_process_shortcodes_on_gravity_fields( $form ) {
 add_filter( 'gform_pre_render_1', 'mv_process_shortcodes_on_gravity_fields' );
 add_filter( 'gform_pre_submission_filter_1', 'mv_process_shortcodes_on_gravity_fields' );
 
+
+/**
+ * Add shortcode for gravity forms checkbox options.
+ *
+ * @param Array $atts  Attributes passed to the shortcode.
+ *
+ * @return String      HTML for the checkbox.
+ */
+function mv_option_shortcode( $atts ) {
+
+	// Attributes
+	$atts = shortcode_atts(
+		array(
+			'image'   => '',
+			'title'   => '',
+			'tooltip' => '',
+		),
+		$atts
+	);
+
+	return '
+		<div class="option-card">
+			<img
+
+				src="' . $atts['image'] . '"
+				alt="' . $atts['title'] . '">
+			<span>' . $atts['title'] . '</span>
+			<a href="#"
+				class="tooltip"
+				data-powertip="' . $atts['tooltip'] . '">?</a>
+		</div>
+	';
+
 }
 
-add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );
+add_shortcode( 'option_card', 'mv_option_shortcode' );
