@@ -28,7 +28,33 @@ function mv_enqueue_styles() {
 
 add_action( 'wp_enqueue_scripts', 'mv_enqueue_styles', 15 );
 
-	wp_enqueue_style( 'themovers-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_THEMOVERS_VERSION, 'all' );
+/**
+ * Render shortcodes on option labels
+ *
+ * @param Array $form  Form data.
+ *
+ * @return Array $form  Form data.
+ */
+function mv_process_shortcodes_on_gravity_fields( $form ) {
+	// Process shortcodes on labels
+	foreach ( $form['fields'] as &$field ) {
+		$field_ids = array( 6, 23 );
+		if ( ! in_array( $field->id, $field_ids, true ) ) {
+			continue;
+		}
+
+		if ( count( $field->choices ) ) {
+			foreach ( $field->choices as &$choice ) {
+				$choice['text'] = do_shortcode( $choice['text'] );
+			}
+		}
+	}
+
+	return $form;
+}
+
+add_filter( 'gform_pre_render_1', 'mv_process_shortcodes_on_gravity_fields' );
+add_filter( 'gform_pre_submission_filter_1', 'mv_process_shortcodes_on_gravity_fields' );
 
 }
 
