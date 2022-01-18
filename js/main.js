@@ -15,7 +15,7 @@ jQuery(function ($) {
 		if (formId != 1) return optionsObj;
 
 		if (fieldId == 7) {
-			optionsObj.minDate = 0;
+			optionsObj.minDate = '+2';
 			optionsObj.yearRange = '-1:+1';
 		}
 
@@ -38,7 +38,7 @@ jQuery(function ($) {
 			const serviceSelected = $service.parent().find(':checked + label .option-card').data('item');
 			let satirwaysSubTotal = 0;
 
-			if (transportSelected != 'mini' && (serviceSelected == 'medio' || serviceSelected == 'completo')) {
+			if (transportSelected != 'mini' && (serviceSelected == 'standard' || serviceSelected == 'deluxe')) {
 				const satirwayFromPrice =
 					parseInt($('.stairway_from input:checked').val()) * parseInt($('.floor_from input').val() | 0);
 				const satirwayToPrice =
@@ -48,9 +48,8 @@ jQuery(function ($) {
 			}
 
 			const services = transportPrice * (1 + servicePrice / 100);
-			const insurance = services * 0.1;
 			const fee = services * 0.05;
-			const subtotal = services - insurance - fee;
+			const subtotal = services - fee;
 			total = parseFloat((services + satirwaysSubTotal).toFixed(2));
 
 			// Show the data on the cart
@@ -60,14 +59,9 @@ jQuery(function ($) {
 			$('.cart-total__row.service .cart-total__row-amount').text(
 				subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
 			);
-			$('.cart-total__row.insurance .cart-total__row-amount').text(
-				insurance.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
-			);
 			$('.cart-total__row.fee .cart-total__row-amount').text(
 				fee.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
 			);
-
-			console.log({ services, insurance, fee, subtotal, total });
 		}
 
 		return total;
