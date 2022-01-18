@@ -10,10 +10,20 @@ Text Domain: themovers
 Template: astra
 */
 
-
 /**
  * Quote form styles
  */
+
+.gform_wrapper select {
+	height: auto !important;
+}
+
+#gform_1 {
+	background: white;
+	padding: 2rem;
+	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+}
+
 #ui-datepicker-div.gform-theme-datepicker:not(.gform-legacy-datepicker)
 	.ui-datepicker-calendar
 	.ui-state-disabled
@@ -25,52 +35,66 @@ Template: astra
 	cursor: no-drop;
 }
 
-#gform_1 .transport_type .gfield_radio {
+#gform_1 .transport_type .gfield_radio,
+#gform_1 .service_type .gfield_radio {
 	display: flex;
 	align-content: center;
+	justify-content: center;
 	margin: 1rem 0;
 }
 
-#gform_1 .transport_type .gfield_radio input {
+#gform_1 .transport_type .ginput_container_radio,
+#gform_1 .service_type .ginput_container_radio {
+	margin: 3rem 0 4rem;
+}
+
+@media (min-width: 767px) {
+	#gform_1 .service_type .ginput_container_radio {
+		max-width: 50rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+#gform_1 .transport_type .gfield_radio input,
+#gform_1 .service_type .gfield_radio input {
 	display: none !important;
 }
 
-#gform_1 .transport_type .gfield_radio label {
+#gform_1 .transport_type .gfield_radio label,
+#gform_1 .service_type .gfield_radio label {
 	position: relative;
 	height: 100%;
+	background: white;
 	border: 1px solid #eee;
 	border-radius: 10px;
-	padding: 2rem;
+	padding: 2rem 2rem 1rem;
 	text-align: center;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.07);
+	box-shadow: 0 10px 20px -5px rgb(0 0 0 / 13%);
+	transition: all 0.2s ease-in;
+	cursor: pointer;
+	user-select: none;
 
 	display: inline-flex;
 	align-items: center;
 }
 
-#gform_1 .option-card .tooltip {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	margin: 0 !important;
-	background: #cfd3d9;
-	width: 1rem;
-	border-radius: 50%;
-	font-size: 12px;
-	line-height: 1rem !important;
-	height: 1rem;
-	text-align: center !important;
-	color: #607382;
-   font-weight: 600;
-}
-
-#gform_1 .transport_type .gfield_radio input:checked + label {
+#gform_1 .transport_type .gfield_radio input:checked + label,
+#gform_1 .service_type .gfield_radio input:checked + label {
 	border-color: #9bd49b;
-	box-shadow: 0 0 105px rgb(0 0 0 / 5%);
+	box-shadow: 0 20px 30px -5px rgb(0 0 0 / 8%);
 	transform: scale(1.1);
 }
 
-#gform_1 .transport_type .gfield_radio label span {
+#gform_1 .transport_type .gfield_radio input:hover:not(:checked) + label,
+#gform_1 .service_type .gfield_radio input:hover:not(:checked) + label {
+	border: 1px solid #e4e4e4;
+	box-shadow: 0 20px 30px -5px rgb(0 0 0 / 8%);
+	transform: scale(1.05);
+}
+
+#gform_1 .transport_type .gfield_radio label > span,
+#gform_1 .service_type .gfield_radio label > span {
 	display: block;
 	margin-top: 1rem;
 	font-weight: 600;
@@ -78,7 +102,143 @@ Template: astra
 	text-align: center;
 }
 
-#gform_1 .transport_type .gfield_radio label img {
+#gform_1 .transport_type .gfield_radio label img,
+#gform_1 .service_type .gfield_radio label img {
 	display: block;
 	max-width: 100%;
+}
+
+#gform_1 .form_total.hidden {
+	display: none;
+}
+
+#gform_1 .option-card .title {
+	font-size: 1.5rem;
+	margin-top: 1rem;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+}
+
+#gform_1 .option-card .description {
+	line-height: 1.3 !important;
+	color: #444;
+	text-align: center;
+	position: relative;
+}
+
+#gform_1 .option-card .tooltip {
+	display: inline-block;
+	background: #cfd3d9;
+	width: 12px;
+	border-radius: 50%;
+	font-size: 0.6rem;
+	height: 12px;
+	vertical-align: super;
+	color: #607382;
+	font-weight: 600;
+}
+
+#gform_1 .option-card .meta {
+	font-size: 0.75rem;
+	margin-top: 1rem;
+}
+
+#gform_1 .option-card .meta > div {
+	display: flex;
+	justify-content: space-between;
+}
+
+#gform_1 .option-card .meta strong {
+	color: #444;
+	font-weight: 600;
+}
+
+#gform_1 .gform_page_fields {
+	position: relative;
+}
+
+#gform_1 #gform_fields_1_3,
+#gform_1 #gform_fields_1_3 .gform_page_footer {
+	width: calc((100% / 3 * 2) - 2rem);
+}
+
+#gform_1 .cart_total {
+	border-radius: 10px;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: calc(100% / 3);
+	background: #f9f9f9;
+	padding: 1rem 1.5rem 1.5rem;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+#gform_1 .cart-total__price {
+	margin: -1rem -1.5rem 1.5rem;
+	background: linear-gradient(135deg, rgb(19, 84, 122), rgb(128, 208, 199));
+	color: white;
+	text-align: center;
+	padding: 2rem 0;
+	position: relative;
+	z-index: 1;
+	pointer-events: none;
+}
+
+#gform_1 .cart-total__price-box {
+	line-height: 1;
+}
+
+#gform_1 .cart-total__price-title {
+	font-weight: 500;
+	text-transform: capitalize;
+}
+
+#gform_1 .cart-total__price-amount {
+	font-size: 5rem;
+	font-weight: 700;
+}
+
+#gform_1 .cart-total__price-currency {
+	vertical-align: top;
+	margin-top: 0.8em;
+	display: inline-block;
+}
+
+#gform_1 .cart-total__row {
+	display: flex;
+	justify-content: space-between;
+}
+
+#gform_1 .cart-total__row:not(:last-child) {
+	margin-bottom: 0.5rem;
+}
+
+#gform_1 .cart-total__row-description {
+	text-decoration: underline;
+}
+
+#gform_1 .cart-total__row-amount {
+	width: 4em;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#gform_1 .gform_page_footer {
+	text-align: center;
+}
+
+/**
+ * Tooltips
+ */
+#powerTip {
+	background: rgb(0 0 0 / 90%);
+}
+
+#powerTip ul {
+	margin: 0;
+	padding: 1rem;
+	padding-left: 1.5rem;
 }

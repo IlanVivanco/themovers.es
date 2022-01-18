@@ -11,7 +11,7 @@ jQuery(function ($) {
 
 	// Limit the dates from today to one year to the future
 	gform.addFilter('gform_datepicker_options_pre_init', function (optionsObj, formId, fieldId) {
-		//only apply to quote form
+		// Only apply to quote form
 		if (formId != 1) return optionsObj;
 
 		if (fieldId == 7) {
@@ -24,18 +24,50 @@ jQuery(function ($) {
 
 	// Process the cart total
 	gform.addFilter('gform_product_total', function (total, formId) {
-		//only apply to quote form
+		// Only apply to quote form
 		if (formId != 1) return total;
 
-		let $type = $('.transport_type input');
-		let $service = $('.transport_service input');
+		// Fields
+		let $transport = $('.transport_type input');
+		let $service = $('.service_type input');
 
-		if ($type.is(':checked') && $service.is(':checked')) {
-			let typePrice = parseFloat($type.parent().find(':checked').val());
-			let servicePrice = parseFloat($service.parent().find(':checked').val().split('|')[1]);
-			total = servicePrice + typePrice;
+		if ($transport.is(':checked') && $service.is(':checked')) {
+			const transportPrice = parseFloat($transport.parent().find(':checked').val());
+			const servicePrice = parseFloat($service.parent().find(':checked').val().split('|')[1]);
+			const transportSelected = $transport.parent().find(':checked + label .option-card').data('item');
+			const serviceSelected = $service.parent().find(':checked + label .option-card').data('item');
+			let satirwaysSubTotal = 0;
 
-			console.log({ typePrice, servicePrice, total });
+			if (transportSelected != 'mini' && (serviceSelected == 'medio' || serviceSelected == 'completo')) {
+				const satirwayFromPrice =
+					parseInt($('.stairway_from input:checked').val()) * parseInt($('.floor_from input').val() | 0);
+				const satirwayToPrice =
+					parseInt($('.stairway_to input:checked').val()) * parseInt($('.floor_to input').val() | 0);
+
+				satirwaysSubTotal = satirwayFromPrice + satirwayToPrice;
+			}
+
+			const services = transportPrice * (1 + servicePrice / 100);
+			const insurance = services * 0.1;
+			const fee = services * 0.05;
+			const subtotal = services - insurance - fee;
+			total = parseFloat((services + satirwaysSubTotal).toFixed(2));
+
+			// Show the data on the cart
+			$('.cart-total__price-title').text(`Moovers ${transportSelected} - Servicio ${serviceSelected}`);
+			$('.cart-total__price-amount').text(total.toLocaleString('es-ES'));
+
+			$('.cart-total__row.service .cart-total__row-amount').text(
+				subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+			);
+			$('.cart-total__row.insurance .cart-total__row-amount').text(
+				insurance.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+			);
+			$('.cart-total__row.fee .cart-total__row-amount').text(
+				fee.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+			);
+
+			console.log({ services, insurance, fee, subtotal, total });
 		}
 
 		return total;
