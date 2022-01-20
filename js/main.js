@@ -53,7 +53,7 @@ jQuery(function ($) {
 			total = parseFloat((services + satirwaysSubTotal).toFixed(2));
 
 			// Show the data on the cart
-			$('.cart-total__price-title').text(`Moovers ${transportSelected} - Servicio ${serviceSelected}`);
+			$('.cart-total__price-title').text(`Movers ${transportSelected} - Servicio ${serviceSelected}`);
 			$('.cart-total__price-amount').text(total.toLocaleString('es-ES'));
 
 			$('.cart-total__row.service .cart-total__row-amount').text(

@@ -10,18 +10,23 @@ Text Domain: themovers
 Template: astra
 */
 
-/**
- * Quote form styles
- */
-
 .gform_wrapper select {
 	height: auto !important;
 }
 
-#gform_1 {
+.gform_wrapper.gravity-theme .field_description_above .gfield_description {
+	padding: 0.2rem 0.7rem !important;
+}
+
+#gform_1,
+#gform_confirmation_message_1 {
 	background: white;
 	padding: 2rem;
 	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+}
+
+#gform_1_validation_container {
+	display: none !important;
 }
 
 #ui-datepicker-div.gform-theme-datepicker:not(.gform-legacy-datepicker)
@@ -108,7 +113,7 @@ Template: astra
 	max-width: 100%;
 }
 
-#gform_1 .form_total.hidden {
+#gform_1 .form_total {
 	display: none;
 }
 
