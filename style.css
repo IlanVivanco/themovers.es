@@ -45,20 +45,12 @@ Template: astra
 	display: flex;
 	align-content: center;
 	justify-content: center;
-	margin: 1rem 0;
+	margin: 1rem -0.75rem;
 }
 
 #gform_1 .transport_type .ginput_container_radio,
 #gform_1 .service_type .ginput_container_radio {
 	margin: 3rem 0 4rem;
-}
-
-@media (min-width: 767px) {
-	#gform_1 .service_type .ginput_container_radio {
-		max-width: 50rem;
-		margin-left: auto;
-		margin-right: auto;
-	}
 }
 
 #gform_1 .transport_type .gfield_radio input,
@@ -70,15 +62,18 @@ Template: astra
 #gform_1 .service_type .gfield_radio label {
 	position: relative;
 	height: 100%;
+	margin: 0 0.75rem;
+	padding: 2rem 2rem 1rem;
 	background: white;
+
 	border: 1px solid #eee;
 	border-radius: 10px;
-	padding: 2rem 2rem 1rem;
-	text-align: center;
 	box-shadow: 0 10px 20px -5px rgb(0 0 0 / 13%);
+	text-align: center;
 	transition: all 0.2s ease-in;
 	cursor: pointer;
 	user-select: none;
+	max-width: none;
 
 	display: inline-flex;
 	align-items: center;
@@ -88,14 +83,12 @@ Template: astra
 #gform_1 .service_type .gfield_radio input:checked + label {
 	border-color: #9bd49b;
 	box-shadow: 0 20px 30px -5px rgb(0 0 0 / 8%);
-	transform: scale(1.1);
 }
 
 #gform_1 .transport_type .gfield_radio input:hover:not(:checked) + label,
 #gform_1 .service_type .gfield_radio input:hover:not(:checked) + label {
 	border: 1px solid #e4e4e4;
 	box-shadow: 0 20px 30px -5px rgb(0 0 0 / 8%);
-	transform: scale(1.05);
 }
 
 #gform_1 .transport_type .gfield_radio label > span,
@@ -246,4 +239,72 @@ Template: astra
 	margin: 0;
 	padding: 1rem;
 	padding-left: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+	#gform_1 .transport_type .gfield_radio,
+	#gform_1 .service_type .gfield_radio {
+		flex-wrap: wrap;
+		margin: -0.75rem 0;
+	}
+
+	#gform_1 .transport_type .gfield_radio > div,
+	#gform_1 .service_type .gfield_radio > div {
+		width: 50%;
+		margin: 0.75rem 0;
+	}
+}
+
+@media (min-width: 1024px) {
+	#gform_1 .transport_type .gfield_radio input:checked + label,
+	#gform_1 .service_type .gfield_radio input:checked + label {
+		transform: scale(1.1);
+	}
+
+	#gform_1 .transport_type .gfield_radio input:hover:not(:checked) + label,
+	#gform_1 .service_type .gfield_radio input:hover:not(:checked) + label {
+		transform: scale(1.05);
+	}
+}
+
+@media (max-width: 767px) {
+	#gform_1 .transport_type .gfield_radio,
+	#gform_1 .service_type .gfield_radio {
+		display: block;
+	}
+
+	#gform_1 .transport_type .gfield_radio > div,
+	#gform_1 .service_type .gfield_radio > div {
+		width: 100%;
+		margin: 0;
+	}
+
+	#gform_1 .transport_type .gfield_radio label,
+	#gform_1 .service_type .gfield_radio label {
+		margin: 1rem 0;
+		width: 100%;
+	}
+
+	#gform_1 .cart_total {
+		position: relative;
+		width: 100%;
+		margin-bottom: 3rem;
+	}
+
+	#gform_1 #gform_fields_1_3,
+	#gform_1 #gform_fields_1_3 .gform_page_footer {
+		width: 100%;
+	}
+
+	#gf_page_steps_1{
+		display: none;
+	}
+}
+
+@media (min-width: 768px) {
+	#gform_1 .service_type .ginput_container_radio {
+		max-width: 50rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
