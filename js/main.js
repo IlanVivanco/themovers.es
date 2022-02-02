@@ -66,4 +66,33 @@ jQuery(function ($) {
 
 		return total;
 	});
+
+	// Track the form submission events
+	$(document).on('gform_confirmation_loaded', function (event, formId) {
+		if (formId == 1) {
+			if (typeof window.dataLayer != 'undefined') {
+				window.dataLayer.push({
+					event: 'GFTrackSubmission',
+					GFTrackCategory: 'form',
+					GFTrackAction: 'submission',
+					GFTrackLabel: `form_${form_id}`,
+				});
+			}
+		}
+	});
+
+	// Track the form pagination events
+	$(document).on('gform_page_loaded', function (event, formId, currentPage) {
+		if (formId == 1) {
+			if (typeof window.dataLayer != 'undefined') {
+				window.dataLayer.push({
+					event: 'GFTrackPagination',
+					GFTrackCategory: 'form',
+					GFTrackAction: 'pagination',
+					GFTrackLabel: `form_${formId}`,
+					GFTrackValue: `page_${currentPage}`,
+				});
+			}
+		}
+	});
 });
