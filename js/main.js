@@ -1,98 +1,108 @@
 'use strict';
 
 jQuery(function ($) {
-	// Init tooltips
-	$('.tooltip').powerTip();
-
-	// Init tooltips after gravity form is loaded
-	$(document).on('gform_post_render', function (event, form_id, current_page) {
+	if (typeof gform !== 'undefined') {
+		// Init tooltips
 		$('.tooltip').powerTip();
-	});
 
-	// Limit the dates from today to one year to the future
-	gform.addFilter('gform_datepicker_options_pre_init', function (optionsObj, formId, fieldId) {
-		// Only apply to quote form
-		if (formId != 1) return optionsObj;
+		// Init tooltips after gravity form is loaded
+		$(document).on('gform_post_render', function (event, form_id, current_page) {
+			$('.tooltip').powerTip();
+		});
 
-		if (fieldId == 7) {
-			optionsObj.minDate = '+2';
-			optionsObj.yearRange = '-1:+1';
-		}
+		// Limit the dates from today to one year to the future
+		gform.addFilter('gform_datepicker_options_pre_init', function (optionsObj, formId, fieldId) {
+			// Only apply to quote form
+			if (formId != 1) return optionsObj;
 
-		return optionsObj;
-	});
-
-	// Process the cart total
-	gform.addFilter('gform_product_total', function (total, formId) {
-		// Only apply to quote form
-		if (formId != 1) return total;
-
-		// Fields
-		let $transport = $('.transport_type input');
-		let $service = $('.service_type input');
-
-		if ($transport.is(':checked') && $service.is(':checked')) {
-			const transportPrice = parseFloat($transport.parent().find(':checked').val());
-			const servicePrice = parseFloat($service.parent().find(':checked').val().split('|')[1]);
-			const transportSelected = $transport.parent().find(':checked + label .option-card').data('item');
-			const serviceSelected = $service.parent().find(':checked + label .option-card').data('item');
-			let satirwaysSubTotal = 0;
-
-			if (transportSelected != 'mini' && (serviceSelected == 'standard' || serviceSelected == 'deluxe')) {
-				const satirwayFromPrice =
-					parseInt($('.stairway_from input:checked').val()) * parseInt($('.floor_from input').val() | 0);
-				const satirwayToPrice =
-					parseInt($('.stairway_to input:checked').val()) * parseInt($('.floor_to input').val() | 0);
-
-				satirwaysSubTotal = satirwayFromPrice + satirwayToPrice;
+			if (fieldId == 7) {
+				optionsObj.minDate = '+2';
+				optionsObj.yearRange = '-1:+1';
 			}
 
-			const services = transportPrice * (1 + servicePrice / 100);
-			const fee = services * 0.05;
-			const subtotal = services - fee;
-			total = parseFloat((services + satirwaysSubTotal).toFixed(2));
+			return optionsObj;
+		});
 
-			// Show the data on the cart
-			$('.cart-total__price-title').text(`Movers ${transportSelected} - Servicio ${serviceSelected}`);
-			$('.cart-total__price-amount').text(total.toLocaleString('es-ES'));
+		// Process the cart total
+		gform.addFilter('gform_product_total', function (total, formId) {
+			// Only apply to quote form
+			if (formId != 1) return total;
 
-			$('.cart-total__row.service .cart-total__row-amount').text(
-				subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
-			);
-			$('.cart-total__row.fee .cart-total__row-amount').text(
-				fee.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
-			);
-		}
+			// Fields
+			let $transport = $('.transport_type input');
+			let $service = $('.service_type input');
 
-		return total;
-	});
+			if ($transport.is(':checked') && $service.is(':checked')) {
+				const transportPrice = parseFloat($transport.parent().find(':checked').val());
+				const servicePrice = parseFloat($service.parent().find(':checked').val().split('|')[1]);
+				const transportSelected = $transport.parent().find(':checked + label .option-card').data('item');
+				const serviceSelected = $service.parent().find(':checked + label .option-card').data('item');
+				let satirwaysSubTotal = 0;
 
-	// Track the form submission events
-	$(document).on('gform_confirmation_loaded', function (event, formId) {
-		if (formId == 1) {
-			if (typeof window.dataLayer != 'undefined') {
-				window.dataLayer.push({
-					event: 'GFTrackSubmission',
-					GFTrackCategory: 'form',
-					GFTrackAction: 'submission',
-					GFTrackLabel: `form_${form_id}`,
-				});
+				if (transportSelected != 'mini' && (serviceSelected == 'standard' || serviceSelected == 'deluxe')) {
+					const satirwayFromPrice =
+						parseInt($('.stairway_from input:checked').val()) * parseInt($('.floor_from input').val() | 0);
+					const satirwayToPrice =
+						parseInt($('.stairway_to input:checked').val()) * parseInt($('.floor_to input').val() | 0);
+
+					satirwaysSubTotal = satirwayFromPrice + satirwayToPrice;
+				}
+
+				const services = transportPrice * (1 + servicePrice / 100);
+				const fee = services * 0.05;
+				const subtotal = services - fee;
+				total = parseFloat((services + satirwaysSubTotal).toFixed(2));
+
+				// Show the data on the cart
+				$('.cart-total__price-title').text(`Movers ${transportSelected} - Servicio ${serviceSelected}`);
+				$('.cart-total__price-amount').text(total.toLocaleString('es-ES'));
+
+				$('.cart-total__row.service .cart-total__row-amount').text(
+					subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+				);
+				$('.cart-total__row.fee .cart-total__row-amount').text(
+					fee.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })
+				);
 			}
-		}
-	});
 
-	// Track the form pagination events
-	$(document).on('gform_page_loaded', function (event, formId, currentPage) {
-		if (formId == 1) {
-			if (typeof window.dataLayer != 'undefined') {
-				window.dataLayer.push({
-					event: 'GFTrackPagination',
-					GFTrackCategory: 'form',
-					GFTrackAction: 'pagination',
-					GFTrackLabel: `form_${formId}`,
-					GFTrackValue: `page_${currentPage}`,
-				});
+			return total;
+		});
+
+		// Track the quote form events
+		$(document).on('gform_page_loaded', function (event, formId, currentPage) {
+			if (formId == 1) {
+				trackEvent('form', { step: currentPage });
+
+				if (currentPage == 3) {
+					setTimeout(() => {
+						const service = $('.cart-total__price-title').text();
+						const total = $('.cart-total__price-amount').text();
+
+						trackEvent('add_to_cart', {
+							ecommerce: {
+								items: [
+									{
+										item_name: service,
+										price: total,
+										quantity: 1,
+										currency: 'EUR',
+									},
+								],
+							},
+						});
+					}, 1000);
+				}
 			}
+		});
+	}
+
+	// Send events to Google Tag Manager
+	function trackEvent(event, data) {
+		if (typeof window.dataLayer != 'undefined') {
+			window.dataLayer.push({
+				event,
+				...data,
+			});
 		}
-	});
+	}
 });
