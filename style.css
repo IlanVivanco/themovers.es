@@ -241,6 +241,11 @@ Template: astra
 	padding-left: 1.5rem;
 }
 
+/* Cookie banner */
+#cookie-law-info-bar{
+	z-index: 9999999999 !important
+}
+
 @media (max-width: 1023px) {
 	#gform_1 .transport_type .gfield_radio,
 	#gform_1 .service_type .gfield_radio {
